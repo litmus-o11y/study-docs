@@ -137,7 +137,7 @@
 4. demo4 -> zerolog를 사용하여 로그에 traceId/spanId를 주입
   - 참고: https://github.com/rs/zerolog
   - zerolog hook function: 로그 이벤트에 트레이싱 정보(traceID와 spanID)를 자동으로 추가
-    - 프로덕션 환경에서는 일부 트레이스만 샘플링하고, 스테이징에서는 모든 트레이스를 샘플링하는 등의 설정이 가능하다. `IsRecording()`이 이러한 샘플링 설정을 반영함
+    - 프로덕션 환경에서는 일부 트레이스만 샘플링하고, 스테이징에서는 모든 트레이스를 샘플링하는 등의 설정이 가능하다. `IsRecording()`이 이러한 샘플링 설정을 반영함
     - 트레이스를 생성하는 경우 HTTP 헤더를 통해 특정 트레이스의 샘플링을 강제할 수도 있다. (프로덕션 환경에서 특정 문제를 디버깅할 때 유용함)
   ```go
   // SpanLogHook adds a gook into a zerolog.Logger if the span is
