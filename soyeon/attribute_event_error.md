@@ -144,3 +144,23 @@ func fetchUserData(ctx context.Context, userID string) (*UserData, error) {
     return userData, nil
 }
 ```
+
+## Attribute vs Event
+Attribute와 Event의 용도와 사용 시기를 구분하기가 헷갈려서 공식문서를 참고해보면, Events와 Attributes 모두 추가 정보를 제공하긴 하지만
+- Attributes (속성): Attributes는 메타데이터 키-값 쌍으로, 작업의 전체 기간 동안 유효한 정보를 제공한다. 타임스탬프가 중요하지 않은 경우 attribute를 사용한다.
+    - 키는 null이 아닌 문자열이어야 한다
+    - 값은 null이 아닌 문자열, 불리언, 부동소수점, 정수, 또는 이들의 배열이어야 한다
+    - Span 생성 시 또는 이후에 추가할 수 있지만, 생성 시 추가하는 것이 좋다
+- Events (이벤트): 구조화된 로그 메시지 또는 주석으로 볼 수 있다. 이는 Span의 기간 동안 의미 있는 단일 시점을 나타낸다. 즉, 특정 타임스탬프가 의미 있는 경우 사용한다.
+    - 특정 시점에 발생한 중요한 사건을 기록한다.
+    - 이벤트도 자체적으로 속성을 가질 수 있다.
+    ```go
+    span.AddEvent("order_received")
+    span.AddEvent("page_interactive", trace.WithAttributes(
+        attribute.Int64("load_time_ms", 1200)
+    ))
+    ```
+
+참고
+- https://opentelemetry.io/docs/concepts/signals/traces/#attributes
+- https://opentelemetry.io/docs/specs/semconv/general/trace/
